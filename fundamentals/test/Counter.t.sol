@@ -14,6 +14,7 @@ contract CounterTest is Test {
 
     function test_Increment() public {
         counter.increment();
+        console2.log("number", counter.number());
         assertEq(counter.number(), 1);
     }
 
