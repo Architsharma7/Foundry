@@ -5,6 +5,7 @@ import {DSC} from "./DSC.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {AggregatorV3Interface} from "@chainlink/contracts/interfaces/AggregatorV3Interface.sol";
+import {OracleLib} from "./libraries/OracleLib.sol";
 
 contract DSCEngine is ReentrancyGuard {
     error DSCEngine_Must_Be_Greater_Than_Zero();
@@ -16,6 +17,8 @@ contract DSCEngine is ReentrancyGuard {
     error DSCEngine_TransferFailed();
     error DSCEngine_Health_Factor_OK(uint256 healthFactor);
     error DSCEngine_Health_Factor_NotImproved();
+
+    using OracleLib for AggregatorV3Interface;
 
     mapping(address => bool) public s_AllowedTokens;
     mapping(address token => address priceFeed) public s_priceFeeds;
@@ -114,7 +117,7 @@ contract DSCEngine is ReentrancyGuard {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(
             s_priceFeeds[_token]
         );
-        (, int256 price, , , ) = priceFeed.latestRoundData();
+        (, int256 price, , , ) = priceFeed.staleCheckLatestRoundData();
         return ((uint256(price) * ADDITIONAL_FEED_PRECISION) * _amount) / 1e18;
     }
 
@@ -223,7 +226,7 @@ contract DSCEngine is ReentrancyGuard {
         AggregatorV3Interface priceFeed = AggregatorV3Interface(
             s_priceFeeds[_token]
         );
-        (, int256 price, , , ) = priceFeed.latestRoundData();
+        (, int256 price, , , ) = priceFeed.staleCheckLatestRoundData();
         // ($10e18 * 1e18) / ($2000e8 * 1e10)
         return (((_amountinWEI * 1e18) / (uint256(price))) *
             ADDITIONAL_FEED_PRECISION);
