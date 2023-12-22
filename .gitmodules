@@ -10,3 +10,6 @@
 [submodule "advanced/lib/chainlink-brownie-contracts"]
 	path = advanced/lib/chainlink-brownie-contracts
 	url = https://github.com/smartcontractkit/chainlink-brownie-contracts
+[submodule "advanced/lib/openzeppelin-contracts-upgradeable"]
+	path = advanced/lib/openzeppelin-contracts-upgradeable
+	url = https://github.com/OpenZeppelin/openzeppelin-contracts-upgradeable

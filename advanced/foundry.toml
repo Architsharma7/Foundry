@@ -2,7 +2,7 @@
 src = "src"
 out = "out"
 libs = ["lib"]
-remappings = ["@openzeppelin/contracts=lib/openzeppelin-contracts/contracts", "@chainlink/contracts=lib/chainlink-brownie-contracts/contracts/src/v0.8"]
+remappings = ["@openzeppelin/contracts-upgradeable=lib/openzeppelin-upgrades-contracts-upgradeable/contracts","@openzeppelin/contracts=lib/openzeppelin-contracts/contracts", "@chainlink/contracts=lib/chainlink-brownie-contracts/contracts/src/v0.8"]
 
 [invariant]
 runs = 128
